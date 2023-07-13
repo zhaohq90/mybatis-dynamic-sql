@@ -230,11 +230,13 @@ public class SqlColumn<T> implements BindableColumn<T>, SortSpecification {
                 .build();
     }
 
+    @Deprecated
     public UpdateDSL<UpdateModel> setEqualToSupplier(UpdateDSL<UpdateModel> dsl){
         dsl.set(this).equalTo(valueSupplier);
         return dsl;
     }
 
+    @Deprecated
     public UpdateDSL<UpdateModel> setEqualToSupplierWhenPresent(UpdateDSL<UpdateModel> dsl){
         dsl.set(this).equalToWhenPresent(valueSupplier);
         return dsl;
