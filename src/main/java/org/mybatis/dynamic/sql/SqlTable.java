@@ -116,6 +116,14 @@ public class SqlTable implements TableExpression {
         return SqlColumn.of(name, this);
     }
 
+    public <T> SqlColumn<T> column(String name, String alias) {
+        return new SqlColumn.Builder<T>()
+                .withName(name)
+                .withAlias(alias)
+                .withTable(this)
+                .build();
+    }
+
     @NotNull
     public <T> SqlColumn<T> column(String name, JDBCType jdbcType) {
         return SqlColumn.of(name, this, jdbcType);

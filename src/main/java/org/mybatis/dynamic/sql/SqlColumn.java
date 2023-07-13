@@ -19,6 +19,7 @@ import java.sql.JDBCType;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.BiFunction;
+import java.util.function.Supplier;
 
 import org.jetbrains.annotations.NotNull;
 import org.mybatis.dynamic.sql.render.RenderingStrategy;
@@ -37,6 +38,7 @@ public class SqlColumn<T> implements BindableColumn<T>, SortSpecification {
     protected final ParameterTypeConverter<T, ?> parameterTypeConverter;
     protected final BiFunction<TableAliasCalculator, SqlTable, Optional<String>> tableQualifierFunction;
     protected final Class<T> javaType;
+    private Supplier<T> valueSupplier;
 
     private SqlColumn(Builder<T> builder) {
         name = Objects.requireNonNull(builder.name);
@@ -67,6 +69,10 @@ public class SqlColumn<T> implements BindableColumn<T>, SortSpecification {
     @Override
     public Optional<String> alias() {
         return Optional.ofNullable(alias);
+    }
+
+    public String aliasOrName() {
+        return alias!=null ? alias:name;
     }
 
     @Override
