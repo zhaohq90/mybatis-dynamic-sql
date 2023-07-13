@@ -163,6 +163,11 @@ public class UpdateDSL<R> extends AbstractWhereStarter<UpdateDSL<R>.UpdateWhereB
             return UpdateDSL.this;
         }
 
+        public UpdateDSL<R> equalToUnsafe(Supplier<?> valueSupplier) {
+            columnMappings.add(ValueMapping.of(column, (Supplier<T>)valueSupplier));
+            return UpdateDSL.this;
+        }
+
         public UpdateDSL<R> equalTo(Buildable<SelectModel> buildable) {
             columnMappings.add(SelectMapping.of(column, buildable));
             return UpdateDSL.this;
@@ -188,6 +193,11 @@ public class UpdateDSL<R> extends AbstractWhereStarter<UpdateDSL<R>.UpdateWhereB
 
         public UpdateDSL<R> equalToWhenPresent(Supplier<T> valueSupplier) {
             columnMappings.add(ValueWhenPresentMapping.of(column, valueSupplier));
+            return UpdateDSL.this;
+        }
+
+        public UpdateDSL<R> equalToWhenPresentUnsafe(Supplier<?> valueSupplier) {
+            columnMappings.add(ValueWhenPresentMapping.of(column, (Supplier<T>)valueSupplier));
             return UpdateDSL.this;
         }
     }

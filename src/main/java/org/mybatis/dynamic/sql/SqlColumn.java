@@ -53,6 +53,7 @@ public class SqlColumn<T> implements BindableColumn<T>, SortSpecification {
         parameterTypeConverter = builder.parameterTypeConverter;
         tableQualifierFunction = Objects.requireNonNull(builder.tableQualifierFunction);
         javaType = builder.javaType;
+        valueSupplier = builder.valueSupplier;
     }
 
     public String name() {
