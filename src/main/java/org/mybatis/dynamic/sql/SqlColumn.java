@@ -177,6 +177,11 @@ public class SqlColumn<T> implements BindableColumn<T>, SortSpecification {
         return b.withJavaType(javaType).build();
     }
 
+    public SqlColumn<T> withValueSupplier(Supplier<T> valueSupplier) {
+        Builder<T> b = copy();
+        return b.withValueSupplier(valueSupplier).build();
+    }
+
     /**
      * This method helps us tell a bit of fiction to the Java compiler. Java, for better or worse,
      * does not carry generic type information through chained methods. We want to enable method
@@ -230,6 +235,7 @@ public class SqlColumn<T> implements BindableColumn<T>, SortSpecification {
         protected BiFunction<TableAliasCalculator, SqlTable, Optional<String>> tableQualifierFunction =
                 TableAliasCalculator::aliasForColumn;
         protected Class<T> javaType;
+        protected Supplier<T> valueSupplier;
 
         public Builder<T> withName(String name) {
             this.name = name;
@@ -279,6 +285,11 @@ public class SqlColumn<T> implements BindableColumn<T>, SortSpecification {
 
         public Builder<T> withJavaType(Class<T> javaType) {
             this.javaType = javaType;
+            return this;
+        }
+
+        public Builder<T> withValueSupplier(Supplier<T> valueSupplier) {
+            this.valueSupplier = valueSupplier;
             return this;
         }
 
