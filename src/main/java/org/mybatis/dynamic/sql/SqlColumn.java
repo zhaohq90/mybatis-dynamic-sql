@@ -24,6 +24,8 @@ import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
 import org.mybatis.dynamic.sql.render.RenderingStrategy;
 import org.mybatis.dynamic.sql.render.TableAliasCalculator;
+import org.mybatis.dynamic.sql.update.UpdateDSL;
+import org.mybatis.dynamic.sql.update.UpdateModel;
 import org.mybatis.dynamic.sql.util.StringUtilities;
 
 public class SqlColumn<T> implements BindableColumn<T>, SortSpecification {
@@ -182,6 +184,10 @@ public class SqlColumn<T> implements BindableColumn<T>, SortSpecification {
         return b.withValueSupplier(valueSupplier).build();
     }
 
+    public Supplier<T> valueSupplier() {
+        return this.valueSupplier;
+    }
+
     /**
      * This method helps us tell a bit of fiction to the Java compiler. Java, for better or worse,
      * does not carry generic type information through chained methods. We want to enable method
@@ -221,6 +227,16 @@ public class SqlColumn<T> implements BindableColumn<T>, SortSpecification {
                 .withTable(table)
                 .withJdbcType(jdbcType)
                 .build();
+    }
+
+    public UpdateDSL<UpdateModel> setEqualToSupplier(UpdateDSL<UpdateModel> dsl){
+        dsl.set(this).equalTo(valueSupplier);
+        return dsl;
+    }
+
+    public UpdateDSL<UpdateModel> setEqualToSupplierWhenPresent(UpdateDSL<UpdateModel> dsl){
+        dsl.set(this).equalToWhenPresent(valueSupplier);
+        return dsl;
     }
 
     public static class Builder<T> {
